@@ -188,8 +188,8 @@ export const isCExp = (x: any): x is CExp =>
 // ========================================================
 // Parsing utilities
 
-export const isEmpty = (x: any): boolean => x.length === 0;
-export const isArray = (x: any): boolean => x instanceof Array;
+export const isEmpty = (x: any[]): boolean => x.length === 0;
+export const isArray = (x: any): x is any[] => x instanceof Array;
 export const isString = (x: any): x is string => typeof x === "string";
 export const isNumber = (x: any): x is number => typeof x === "number";
 export const isBoolean = (x: any): x is boolean => typeof x === "boolean";

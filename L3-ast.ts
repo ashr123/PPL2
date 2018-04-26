@@ -1,9 +1,9 @@
 // ===========================================================
 // AST type models
 import {map, zipWith} from "ramda";
-import {makeCompoundSExp, makeEmptySExp, makeSymbolSExp, SExp} from './L3-value'
-import {getErrorMessages, hasNoError, isError, safeF, safeFL} from './error';
-import {allT, first, rest, second} from './list';
+import {makeCompoundSExp, makeEmptySExp, makeSymbolSExp, SExp} from "./L3-value"
+import {getErrorMessages, hasNoError, isError, safeF, safeFL} from "./error";
+import {allT, first, rest, second} from "./list";
 
 /*
 ;; =============================================================================
@@ -11,7 +11,7 @@ import {allT, first, rest, second} from './list';
 ;;
 ;; L2 extends L1 with support for IfExp and ProcExp
 ;; L3 extends L2 with support for:
-;; - Pair and List datatypes
+;; - Pair and List data-types
 ;; - Compound literal expressions denoted with quote
 ;; - Primitives: cons, car, cdr, list?
 ;; - The empty-list literal expression

@@ -197,8 +197,8 @@ export const applyPrimitive = (proc: PrimOp, args: Value[]): Value | Error =>
                                                 proc.op === "car" ? carPrim(args[0]) :
                                                     proc.op === "cdr" ? cdrPrim(args[0]) :
                                                         proc.op === "list?" ? isListPrim(args[0]) :
-                                                            proc.op === "number?" ? typeof(args[0]) === 'number' :
-                                                                proc.op === "boolean?" ? typeof(args[0]) === 'boolean' :
+                                                            proc.op === "number?" ? typeof(args[0]) === "number" :
+                                                                proc.op === "boolean?" ? typeof(args[0]) === "boolean" :
                                                                     proc.op === "symbol?" ? isSymbolSExp(args[0]) :
                                                                         proc.op === "string?" ? isString(args[0]) :
                                                                             Error("Bad primitive op " + proc.op);

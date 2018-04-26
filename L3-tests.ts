@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import {map} from 'ramda';
+import {map} from "ramda";
 import {
     isAppExp,
     isBoolExp,
@@ -19,10 +19,10 @@ import {
     makeVarDecl,
     makeVarRef,
     parseL3
-} from './L3-ast';
-import {evalParse, renameExps, substitute} from './L3-eval';
-import {makeClosure, makeCompoundSExp, makeEmptySExp, makeSymbolSExp} from './L3-value';
-import {allT, first, second} from './list';
+} from "./L3-ast";
+import {evalParse, renameExps, substitute} from "./L3-eval";
+import {makeClosure, makeCompoundSExp, makeEmptySExp, makeSymbolSExp} from "./L3-value";
+import {allT, first, second} from "./list";
 
 // ========================================================
 // TESTS Parser

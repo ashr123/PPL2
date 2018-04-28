@@ -36,7 +36,7 @@
           (else (append (cons (first list1) (cons (first list2) '())) (combine (rest list1) (rest list2)))))))
 
 ; Signature: sum-tree(tree)
-; Purpose: Receives a tree whose nodes' data values are all numbers  0 and returns the sum of numbers present
+; Purpose: Receives a tree whose nodes' data values are all numbers 0 and returns the sum of numbers present
 ;          in all tree nodes
 ; Type: [list -> list]
 (define sum-tree
@@ -47,7 +47,7 @@
 ; Purpose: receives a tree whose nodes data values are numbers and booleans and returns the equivalent tree
 ;          whose nodes satisfy the following:
 ;              * If the equivalent node of the original tree is a number, then the resulting
-;                tree's node is 􀀀1 that node value.
+;                tree's node is -1 that node value.
 ;              * If the equivalent node of the original tree is a boolean, then the resulting
 ;                tree's node is the logical not of that node value.
 ; Type: [list -> list]

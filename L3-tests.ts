@@ -26,7 +26,9 @@ import {allT, first, second} from "./list";
 
 // ========================================================
 // TESTS Parser
-
+//parseL3("(let ((a 1) (b #t)) (if b a (+ a 1)))");
+//parseL3("(let* ((x 5) (y (* x 3))) y)");
+console.log(JSON.stringify(parseL3("(let* ((x 3) (y x)) x y)"), null, 4));
 // Atomic
 assert(isNumExp(parseL3("1")));
 assert(isBoolExp(parseL3("#t")));

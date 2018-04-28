@@ -8,4 +8,3 @@ export const rest = (x: any[]): any[] => x.slice(1);
 
 // A useful type predicate for homogeneous lists
 export const allT = <T>(isT: (x) => x is T, x: any[]): x is T[] => all(isT, x);
-

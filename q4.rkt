@@ -46,10 +46,10 @@
 ; Signature: inverse-tree(tree)
 ; Purpose: receives a tree whose nodes data values are numbers and booleans and returns the equivalent tree
 ;          whose nodes satisfy the following:
-;              * If the equivalent node of the original tree is a number, then the resulting
-;                tree's node is -1 that node value.
-;              * If the equivalent node of the original tree is a boolean, then the resulting
-;                tree's node is the logical not of that node value.
+;              * If the equivalent node of the original tree is a number, then the resulting tree's node is
+;                -1 that node value.
+;              * If the equivalent node of the original tree is a boolean, then the resulting tree's node is
+;                the logical not of that node value.
 ; Type: [list -> list]
 (define inverse-tree
   (lambda (tree)

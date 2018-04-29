@@ -1,30 +1,28 @@
 #lang racket
 
-; Signature: shift-left(list)
+; Signature: shift-left(lst)
 ; Purpose: Evaluates the list that is its' shift-left by one place
 ; Type: [list -> list]
 (define shift-left
-  (lambda (list)
-    (cond ((empty? list) list)
-          ((equal? (length list) 1) list)
-          (else (append (rest list) (cons (first list) '()))))))
+  (lambda (lst)
+    (cond ((empty? lst) lst)
+          (else (append (rest lst) (list (first lst)))))))
 
-; Signature: shift-k-left(list)
+; Signature: shift-k-left(lst)
 ; Purpose: Evaluates the list that is its' shift-left by k places
 ; Type: [list -> list]
 (define shift-k-left
-  (lambda (list k)
-    (cond ((zero? k) list)
-          (else (shift-k-left (shift-left list) (- k 1))))))
+  (lambda (lst k)
+    (cond ((zero? k) lst)
+          (else (shift-k-left (shift-left lst) (- k 1))))))
 
-; Signature: shift-right(list)
+; Signature: shift-right(lst)
 ; Purpose: Evaluates the list that is its' shift-right by one place
 ; Type: [list -> list]
 (define shift-right
-  (lambda (list)
-    (cond ((empty? list) list)
-          ((equal? (length list) 1) list)
-          (else (append (cons (last list) '()) (reverse (rest (reverse list))))))))
+  (lambda (lst)
+    (cond ((empty? lst) lst)
+          (else (append (list (last lst)) (reverse (rest (reverse lst))))))))
 
 ; Signature: combine(list1, list2)
 ; Purpose: Takes two lists and combines them in an alternating manner starting from the 1st list
@@ -33,7 +31,7 @@
   (lambda (list1 list2)
     (cond ((empty? list1) list2)
           ((empty? list2) list1)
-          (else (append (cons (first list1) (cons (first list2) '())) (combine (rest list1) (rest list2)))))))
+          (else (append (list (first list1) (first list2)) (combine (rest list1) (rest list2)))))))
 
 ; Signature: sum-tree(tree)
 ; Purpose: Receives a tree whose nodes' data values are all numbers 0 and returns the sum of numbers present

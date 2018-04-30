@@ -1,7 +1,9 @@
-import {isLetStarExp, LetExp, LetStarExp, makeLetExp} from "./L3-ast";
+import {LetExp, LetStarExp, makeLetExp} from "./L3-ast";
+import {isError} from "./error";
 
 const rewriteLetStar=(letStarExp: LetStarExp | Error): LetExp | Error=>
-    isLetStarExp(letStarExp)? rewriteLetStarHelper(letStarExp.body): Error("Unexpected type");
+    !isError(letStarExp)? rewriteLetStarHelper(letStarExp.body):
+        letStarExp;
 
 
 const rewriteLetStarHelper=(letExp: LetExp) : LetExp =>

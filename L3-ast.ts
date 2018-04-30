@@ -27,6 +27,7 @@ import {allT, first, rest, second} from "./list";
 ;;         |  ( lambda ( <var>* ) <cexp>+ ) / ProcExp(params:VarDecl[], body:CExp[]))
 ;;         |  ( if <cexp> <cexp> <cexp> )   / IfExp(test: CExp, then: CExp, alt: CExp)
 ;;         |  ( let ( binding* ) <cexp>+ )  / LetExp(bindings:Binding[], body:CExp[]))
+;;         |  ( let* ( binding[] ) <cexp>+ )  / LetStarExp(bindings:Binding[], body:CExp[]))
 ;;         |  ( quote <sexp> )              / LitExp(val:SExp)
 ;;         |  ( <cexp> <cexp>* )            / AppExp(operator:CExp, operands:CExp[]))
 ;; <binding>  ::= ( <var> <cexp> )           / Binding(var:VarDecl, val:Cexp)
@@ -123,8 +124,7 @@ export interface LetExp {
 
 export interface LetStarExp {
     tag: "LetStarExp";
-    binding: Binding;
-    body: LetStarExp | LetExp;
+    body: LetExp;
 }
 
 // L3
@@ -159,9 +159,8 @@ export const makeLetExp = (bindings: Binding[], body: CExp[]): LetExp => ({
     bindings: bindings,
     body: body
 });
-export const makeLetStarExp = (binding: Binding, body: LetExp | LetStarExp): LetStarExp => ({
+export const makeLetStarExp = (body: LetExp): LetStarExp => ({
     tag: "LetStarExp",
-    binding: binding,
     body: body
 });
 // L3
@@ -185,6 +184,7 @@ export const isBinding = (x: any): x is Binding => x.tag === "Binding";
 export const isLetExp = (x: any): x is LetExp => x.tag === "LetExp";
 // l3
 export const isLitExp = (x: any): x is LitExp => x.tag === "LitExp";
+export const isLetStarExp = (x: any): x is LetStarExp => x.tag === "LetStarExp";
 
 // Type predicates for type unions
 export const isExp = (x: any): x is Exp => isDefineExp(x) || isCExp(x);
@@ -252,39 +252,12 @@ export const parseL3CExp = (sexp: any): CExp | Error =>
             isSexpString(sexp) ? parseL3Atomic(sexp) :
                 Error("Unexpected type" + sexp);
 
-const safeMakeLetStarExp = (currBinding: Binding[] | Error, body: Array<CExp | Error>): LetStarExp | LetExp | Error =>{
-    if (!isError(currBinding))
-    {
-        let letExp: LetExp, letStarExp: LetStarExp;
-        if (currBinding.length===0)
-            Error("currBinding is empty");
-        if (hasNoError(body))
-            letExp= makeLetExp([currBinding[currBinding.length-1]], body);
-        else
-            return Error("Error in Body");
-        if (currBinding.length>=2)
-            letStarExp=makeLetStarExp(currBinding[currBinding.length-2], letExp);
-        else
-            return letExp;
-        for (let i: number=currBinding.length-3; i>=0; i--)
-            letStarExp = makeLetStarExp(currBinding[i], letStarExp);
-        return letStarExp;
-    }
-    return currBinding;
-};
-
 // const safeMakeLetStarExp = (currBinding: Binding[] | Error, body: Array<CExp | Error>): LetStarExp | LetExp =>
 //      isError(currBinding) ? currBinding :
 //         hasNoError(body) ? (currBinding.length===1) ? makeLetExp([currBinding[0]], body) :
 //             makeLetStarExp(first(currBinding), safeMakeLetStarExp(rest(currBinding), body)) :
-//          ;
+//
 
-
-const parseLetStarExp = (sexps: any[]): LetStarExp | LetExp | Error =>
-    //bindings: sexps[1]
-    //body: sexps[2]
-      safeMakeLetStarExp(parseBindings(sexps[1]), map(parseL3CExp, sexps.slice(2)));
-    // return ;
 
 const parseL3CompoundCExp = (sexps: any[]): CExp | Error =>
     isEmpty(sexps) ? Error("Unexpected empty") :
@@ -317,6 +290,15 @@ const parseLetExp = (sexps: any[]): LetExp | Error =>
 const safeMakeLetExp = (bindings: Binding[] | Error, body: Array<CExp | Error>): LetExp | Error =>
     isError(bindings) ? bindings :
         hasNoError(body) ? makeLetExp(bindings, body) :
+            Error(getErrorMessages(body));
+
+const parseLetStarExp = (sexps: any[]): LetStarExp | Error =>
+    sexps.length < 3 ? Error(`Expected (let (<binding>*) <cexp>+) - ${sexps}`) :
+        safeMakeLetStarExp(parseBindings(sexps[1]), map(parseL3CExp, sexps.slice(2)));
+
+const safeMakeLetStarExp = (bindings: Binding[] | Error, body: Array<CExp | Error>): LetStarExp | Error =>
+    isError(bindings) ? bindings :
+        hasNoError(body) ? makeLetStarExp(makeLetExp(bindings, body)) :
             Error(getErrorMessages(body));
 
 const parseBindings = (pairs: any[]): Binding[] | Error =>

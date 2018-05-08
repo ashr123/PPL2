@@ -5,7 +5,8 @@
     "sourceMap": true,
     "inlineSources": true,
     "pretty": true
-  }//,
+  }
+  //,
   //"exclude": [
   //  "node_modules"
   //]
